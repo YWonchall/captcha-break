@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh" style="height: 100%;">
+  <head>
+    <meta charset="UTF-8">
+    <title>MaskRCNN</title>
+    <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="//unpkg.com/element-plus"></script>
+    <script src="//unpkg.com/@element-plus/icons-vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <h1>自然图像实例分割</h1>
+      <input type="file" ref="select" style="display:none" @change="uploadImage">
+      <div 
+        id="image-upload-wrap" 
+        v-if="url===''" 
+        @click="selectImage"
+         v-loading="loading" 
+         :class="loading ? 'disable-point' : ''"
+      >
+        <el-icon :size="80"><upload-filled /></el-icon>
+        <h3>click to upload your image</h3>
+      </div>
+      <div class="file-upload-content" v-else v-loading="loading">
+        <div id="image">
+          <img :src="url"/>
+        </div>
+        <button type="button" @click="selectImage">Try New Image</button>
+      </div>
+    </div>
+
+    <script>
+        const MaskRCNNApp = {
+            data() {
+                return {
+                  url: "",
+                  loading: false,
+                }
+            },
+            methods: {
+              async upload(file) {
+                let params = new FormData();
+                params.append('file', file);
+                return axios.post("/upload", params, {headers:{'Content-Type':'multipart/form-data'}})
+              },
+              selectImage() {
+                this.$refs.select.click();
+              },
+              uploadImage() {
+                if (this.$refs.select.files.length <= 0) {
+                  this.url = "";
+                  return;
+                }
+                
+                this.loading = true;
+                this.upload(this.$refs.select.files[0])
+                  .then(res => {
+                    this.url = "data:image/png;base64," + res.data;
+                  })
+                  .catch(error => {
+                    this.url = "";
+                    ElementPlus.ElMessage({
+                      message: error.response.data,
+                      type: 'error'
+                    });
+                  })
+                  .finally(() => {
+                    this.loading = false;
+                  });                
+              }
+            }
+        }
+
+        const app = Vue.createApp(MaskRCNNApp);
+        app.use(ElementPlus);
+        app.component("upload-filled", ElementPlusIconsVue.UploadFilled);
+        app.mount('#app');
+    </script>
+
+    <style>
+      body {
+        font-family: sans-serif;
+        background: linear-gradient(to right, #8BC6EC 0%, #9599E2 100%);
+	      height: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Open Sans', sans-serif;
+        padding: 0;
+        margin: 0;
+      }
+      
+      #app {
+        background-color: #fff;
+        width: 80%;
+        max-width: 600px;
+        padding: 48px 48px 54px;
+        height: auto;
+        border-radius: 16px;
+        box-shadow:
+            0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+            0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+            0 12.5px 10px rgba(0, 0, 0, 0.06),
+            0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+            0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+            0 100px 80px rgba(0, 0, 0, 0.12);
+      }
+      h1 {
+        font-size: 24px;
+        color: var(--color-text-dark);
+        margin: 0 0 18px;
+        font-weight: 700;
+      }
+      #image-upload-wrap {
+        font-size: 14px;
+        text-align: center;
+        border-radius: 8px;
+        border: 2px dashed #5388E8;
+        position: relative;
+        min-height: 300px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #404040;
+      }
+      #image-upload-wrap:hover {
+        background-color: #F8FAFF;
+        cursor: pointer;
+      }
+      .disable-point {
+        pointer-events: none;
+      }
+      h3 {
+        font-weight: 600;
+      }
+      #image-upload-wrap:hover > button,
+      button:hover {
+        background-color: #1256CE;
+        color: #fff;
+        cursor: pointer;
+      }
+      button {
+        padding: 16px 24px;
+        border-radius: 8px;
+        transition: all .2s ease;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        outline: none;
+        margin: 12px 0 24px;
+        margin: 0;
+        color: #1256CE;
+        font-size: 14px;
+        background: none;
+        border: 2px solid #1256CE;
+      }
+      img {
+        width: 55%;
+        max-height: 400px;
+        object-fit: scale-down;
+      }
+      #image {
+        margin-bottom: 20px;
+      }
+
+      #image img {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 12px;
+      }
+
+      .file-upload-content {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </body>
+</html>
