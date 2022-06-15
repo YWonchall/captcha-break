@@ -1,0 +1,7 @@
+Log file created at: 2022/06/13 23:15:12
+Running on machine: training-notebook-dbd5e6-dbd5e6-jupyter-master-0
+Running duration (h:mm:ss): 0:00:00
+Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I20220613 23:15:12.621526 23480 env_global_objects_scope.cpp:159] Using rpc backend: local
+I20220613 23:15:12.675925 23480 epoll_comm_network.cpp:63] CommNet:Epoll listening on 0.0.0.0:44427
+F20220613 23:15:14.976979 23480 cuda_util.cpp:179] Check failed: cudaDeviceSynchronize() : out of memory (2) 

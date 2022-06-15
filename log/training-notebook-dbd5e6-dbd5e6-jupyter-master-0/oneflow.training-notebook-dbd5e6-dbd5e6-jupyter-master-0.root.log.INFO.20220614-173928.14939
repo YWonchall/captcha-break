@@ -1,0 +1,6 @@
+Log file created at: 2022/06/14 17:39:28
+Running on machine: training-notebook-dbd5e6-dbd5e6-jupyter-master-0
+Running duration (h:mm:ss): 0:00:00
+Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I20220614 17:39:28.829118 14939 env_global_objects_scope.cpp:159] Using rpc backend: local
+I20220614 17:39:28.926569 14939 epoll_comm_network.cpp:63] CommNet:Epoll listening on 0.0.0.0:36587

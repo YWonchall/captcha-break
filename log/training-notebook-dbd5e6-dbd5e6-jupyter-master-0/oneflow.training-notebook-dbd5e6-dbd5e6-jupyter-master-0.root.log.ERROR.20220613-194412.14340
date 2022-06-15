@@ -1,0 +1,5 @@
+Log file created at: 2022/06/13 19:44:12
+Running on machine: training-notebook-dbd5e6-dbd5e6-jupyter-master-0
+Running duration (h:mm:ss): 0:00:00
+Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
+F20220613 19:44:12.515292 14340 cuda_util.cpp:135] Check failed: !pthread_fork::IsForkedSubProcess() Cannot re-initialize CUDA in forked subprocess. To use CUDA with multiprocessing, you must add 'multiprocessing.set_start_method("spawn")' in '__main__' if you are using Python's multiprocessing
