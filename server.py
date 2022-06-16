@@ -1,10 +1,8 @@
 import os
-from enum import Enum
-import base64
 from io import BytesIO
-from PIL import Image
+from PIL.Image import open 
 from flask import Flask, redirect, url_for, render_template, request
-
+from recognize import Recognize
 
 app = Flask(__name__)
 
@@ -27,20 +25,11 @@ def upload():
         f = request.files['file']
         if not checkFileType(f.filename):
             return f"{f.filename} is not a jpg/png file", 400
-        return "hello"
-        #inputImage = Image.open(BytesIO(f.read()))
-        #outImage = rcnn.ProcessImage(inputImage)
-        #imgIO = BytesIO()
-        #outImage.save(imgIO, 'JPEG')
-        #base64Str = base64.b64encode(imgIO.getvalue()).decode()
+        im = open(BytesIO(f.read()))
+        reg = Recognize()
+        return reg.recognize(im)
 
-        #return base64Str, 200
     except Exception as e:
         return str(e), 400
-
-#@app.errorhandler(404)
-#def not_found(error):
-#    return render_template('error.html'), 404
-
 if __name__ == "__main__":
     app.run("0.0.0.0", port=8888)

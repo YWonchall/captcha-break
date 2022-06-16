@@ -1,9 +1,9 @@
 import oneflow as flow
 import oneflow.nn as nn
-
+import flowvision.transforms as transforms
 import numpy as np
 import string
-
+from PIL import  Image
 characters = '-' + string.digits + string.ascii_letters
 width, height, n_len, n_classes = 192, 64, 4, len(characters)
 n_input_length = 12
@@ -53,7 +53,7 @@ class Model(nn.Module):
 
 class Recognize():
     def __init__(self):
-        self.model = Model(n_classes, input_shape=(3, height, width)).cuda()
+        self.model = Model(n_classes, input_shape=(3, height, width)) #.cuda()
         self.params = flow.load("./model")
         self.model.load_state_dict(self.params)
         self.model.eval()
@@ -75,7 +75,10 @@ class Recognize():
             return ''
         return ''.join(s)
 
-    def recognize(self,image):
-        output = self.model(image.unsqueeze(0).cuda())
+    def recognize(self,im):
+        im = im.resize((192, 64), Image.ANTIALIAS)   
+        transf = transforms.ToTensor()
+        img_tensor = transf(im)  # 模型输入为0-1
+        output = self.model(img_tensor.unsqueeze(0)) #.cuda()
         output_argmax = output.detach().permute(1, 0, 2).argmax(dim=-1)
         return self.decode(output_argmax[0])

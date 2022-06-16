@@ -10,12 +10,10 @@
     <img src='' alt='' id='img_id' style='width:500px'>
    
 	</div>
-  <div>{{result}}</div>
+  <div id ='res'>123</div>
 </div>
 
 <script>
-  // 处理js数据在html显示问题
-  var result = '123'
   function upload(file) {
     let params = new FormData();
     params.append('file', file);
@@ -29,10 +27,10 @@
     console.log(file)
     upload(file).then(res => {
       console.log(res.data)
-      result = res.data
+      document.getElementById('res').innerText = res.data
     })
     .catch(error => {
-      console.log(-1)
+      console.log('error')
     })
     .finally(() => {
       this.loading = false;
