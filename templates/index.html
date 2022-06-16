@@ -3,15 +3,18 @@
 </head>
 
 <div>
-	<label>图片地址</label>
 	<div>
-		<input type='hidden' id='img_url' />
 		<input type='file' onchange="showImg()"  id='img_file'/>
-    <img src='' alt='' id='img_id' style='width:500px'>
-   
+    <img src='' alt='' id='img_id' style='width:300px;height: 150px;'>
 	</div>
-  <div id ='res'>123</div>
+  <div>
+    <p>识别结果：</p>
+    <p id ='res'>请先上传图片</p>
+  </div>
+  
 </div>
+
+
 
 <script>
   function upload(file) {

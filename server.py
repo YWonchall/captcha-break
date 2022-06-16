@@ -24,7 +24,7 @@ def upload():
     try:
         f = request.files['file']
         if not checkFileType(f.filename):
-            return f"{f.filename} is not a jpg/png file", 400
+            return 'error'#f"{f.filename} is not a jpg/png file", 400
         im = open(BytesIO(f.read()))
         reg = Recognize()
         return reg.recognize(im)
