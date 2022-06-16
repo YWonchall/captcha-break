@@ -1,7 +1,0 @@
-Log file created at: 2022/06/14 10:13:32
-Running on machine: training-notebook-dbd5e6-dbd5e6-jupyter-master-0
-Running duration (h:mm:ss): 0:00:00
-Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
-I20220614 10:13:32.314424  2997 env_global_objects_scope.cpp:159] Using rpc backend: local
-I20220614 10:13:32.504815  2997 epoll_comm_network.cpp:63] CommNet:Epoll listening on 0.0.0.0:44813
-F20220614 10:13:35.102278  3106 user_op_tensor.h:64] tensor data_type mismatched. value: kInt64, template T:kInt32
