@@ -1,0 +1,50 @@
+<head>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<div>
+	<div>
+		<input type='file' onchange="showImg()"  id='img_file'/>
+    <img src='' alt='' id='img_id' style='width:300px;height: 150px;'>
+	</div>
+  <div>
+    <p>识别结果：</p>
+    <p id ='res'>请先上传图片</p>
+  </div>
+  
+</div>
+
+
+
+<script>
+  function upload(file) {
+    let params = new FormData();
+    params.append('file', file);
+    console.log(params)
+    return axios.post("/upload", params, {headers:{'Content-Type':'multipart/form-data'}})
+  }
+
+  function showImg(){
+    
+    var file = document.getElementById('img_file').files[0];
+    console.log(file)
+    upload(file).then(res => {
+      console.log(res.data)
+      document.getElementById('res').innerText = res.data
+    })
+    .catch(error => {
+      console.log('error')
+    })
+    .finally(() => {
+      this.loading = false;
+    });    
+    var re = new FileReader();
+    re.readAsDataURL(file);
+    re.onload = function(re){
+      document.getElementById('img_id').src=re.target.result;
+    }
+    
+  }
+</script>
+
+
